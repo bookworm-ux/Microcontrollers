@@ -1,0 +1,55 @@
+ //===========================================================
+ // Example Program for the TIVA TM4C1294XL Evaluation Board
+ // With this file the LEDs D0 to D3 on the eval board will
+ // blink each one after another. To control the LEDs the
+ // Ports N and F with Pins PN0, PN1, PF0 and PF4 have to be
+ // enabled and set as digital output.
+ //===========================================================
+ // Include the Header File for controller tm4c1294ncpdt
+ // Vorname, Nachname => ??? ......... ............
+ #include "inc/tm4c1294ncpdt.h"
+ #include <stdint.h>
+void main(void) {
+     int i=0; // => ???
+     SYSCTL_RCGCGPIO_R = 0x00000C00 ; // => ???
+     while((SYSCTL_RCGCGPIO_R & 0x00000C00)==0);
+
+     //setup PortM (0,1)
+     GPIO_PORTM_DEN_R=0x03;
+     GPIO_PORTM_DIR_R=0x03;
+
+     //setup PortL (0,1)
+     GPIO_PORTL_DEN_R=0x03;
+     GPIO_PORTL_DIR_R=0x00;
+
+ // => ???
+    while(1)
+    {
+        if(GPIO_PORTL_DATA_R == 0x01)
+        {
+            GPIO_PORTM_DATA_R = 0x01;// turn on PN1 and PN1 LEDs ON
+            for(i=0;i<500000;i++);
+        }
+        if(GPIO_PORTL_DATA_R == 0x02)
+        {
+             GPIO_PORTM_DATA_R = 0x02;// turn on PN1 and PN1 LEDs ON
+             for(i=0;i<500000;i++);
+        }
+        if(GPIO_PORTL_DATA_R == 0x03)
+        {
+             GPIO_PORTM_DATA_R = 0x01;// turn on PN1 and PN1 LEDs ON
+             for(i=0;i<500000;i++);
+             GPIO_PORTM_DATA_R = 0x02;// turn on PN1 and PN1 LEDs ON
+              for(i=0;i<500000;i++);
+
+        }
+        else{
+            GPIO_PORTM_DATA_R = 0x00;// turn on PN1 and PN1 LEDs ON
+              for(i=0;i<500000;i++);
+        }
+        /*GPIO_PORTM_DATA_R = 0x03;// turn on PN1 and PN1 LEDs ON
+        for(i=0;i<500000;i++); // => delay loop
+        GPIO_PORTM_DATA_R = 0x00; // =>turn off both PN0 and PN1
+        for(i=0;i<500000;i++); // => delay loop*/
+    }
+}
